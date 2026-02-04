@@ -1,10 +1,15 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from app.models.schemas import HoneypotRequest, HoneypotResponse
 from app.services.orchestrator import handle_message
+from app.utils.auth import verify_api_key   # 👈 ADD
 
 router = APIRouter()
 
-@router.post("/message", response_model=HoneypotResponse)
+@router.post(
+    "/message",
+    response_model=HoneypotResponse,
+    dependencies=[Depends(verify_api_key)]  # 👈 ADD
+)
 def honeypot_message(request: HoneypotRequest):
     try:
         reply = handle_message(request)
