@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
+from typing import Dict, Any
 
 
 class Message(BaseModel):
@@ -23,4 +24,4 @@ class HoneypotRequest(BaseModel):
 
 class HoneypotResponse(BaseModel):
     status: str
-    reply: str
+    reply: Dict[str, Any]
