@@ -38,6 +38,9 @@ def handle_message(request):
             intelligence=session["intelligence"]
         )
 
+        from app.services.intelligence import update_agent_notes
+        update_agent_notes(session["intelligence"])
+
         reply_payload["recommended_action"] = "Block sender and report to bank"
 
         if session["total_messages"] >= 5:

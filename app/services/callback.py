@@ -18,7 +18,7 @@ def send_final_result(session_id, session):
             "phoneNumbers": intel.phoneNumbers,
             "suspiciousKeywords": intel.suspiciousKeywords
         },
-        "agentNotes": "Scammer used urgency and payment redirection"
+        "agentNotes": intel.agentNotes or "Scammer used urgency and payment redirection"
     }
 
     try:

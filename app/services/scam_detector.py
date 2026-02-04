@@ -26,7 +26,7 @@ class ScamDetector:
         if phone:
             score += 0.2
         if sender and "scammer" in sender.lower():
-            score += 1  # High boost for suspicious sender
+            score += 1  
 
         score = min(score, 1)
 
