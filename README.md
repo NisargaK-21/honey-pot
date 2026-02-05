@@ -143,14 +143,3 @@ Tests focus on:
 4. Robust intelligence extraction & normalization
 5. End-to-end tests and mandatory GUVI callback compliance
 
-## Contributing
-Open issues or submit PRs. Keep changes focused and add tests for new behavior.
-
-## License
-Specify an appropriate license for your project.
-
----
-If you want, I can:
-- run the test suite now
-- add a short `.env.example`
-- adjust the README to match specific environment variable names read from `app/config.py`
