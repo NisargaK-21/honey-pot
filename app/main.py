@@ -5,9 +5,9 @@ from app.utils.auth import verify_api_key
 app = FastAPI(title="Agentic Honey-Pot API")
 
 @app.get("/")
+@app.head("/")
 def health_check():
     return {"status": "ok"}
-
 
 app.include_router(
     honeypot_router,
