@@ -6,52 +6,49 @@ from app.utils.regex_patterns import (
 )
 
 class ScamDetector:
-    def detect(self, text: str) -> dict:
-        text_lower = text.lower()
 
-        keyword_hits = [kw for kw in SCAM_KEYWORDS if kw in text_lower]
+    def detect(self, text: str, sender: str = None) -> dict:
+        t = text.lower()
 
-        upi_found = bool(UPI_REGEX.search(text_lower))
-        phone_found = bool(PHONE_REGEX.search(text_lower))
-        url_found = bool(URL_REGEX.search(text_lower))
+        keyword_hits = [kw for kw in SCAM_KEYWORDS if kw in t]
 
-        # FIXED scoring logic
-        score = 0.0
+        upi = bool(UPI_REGEX.search(t))
+        phone = bool(PHONE_REGEX.search(t))
+        url = bool(URL_REGEX.search(t))
+
+        score = 0
         if keyword_hits:
+            score += 0.3
+        if upi:
             score += 0.4
-        if upi_found:
+        if url:
             score += 0.4
-        if url_found:
-            score += 0.4
-        if phone_found:
+        if phone:
             score += 0.2
+        if sender and "scammer" in sender.lower():
+            score += 1  
 
-        score = min(score, 1.0)
-
-        scam_detected = score >= 0.5
+        score = min(score, 1)
 
         return {
-            "scamDetected": scam_detected,
+            "scamDetected": score >= 0.5,
             "confidenceScore": round(score, 2),
-            "scamType": self._classify_scam(text_lower),
+            "scamType": self._classify(t),
             "reasons": keyword_hits
         }
 
-    def _classify_scam(self, text: str) -> str:
-        # ORDER MATTERS — FIXED
-        if "http" in text or "link" in text:
-            return "Phishing"
+    def _classify(self, text: str):
         if "upi" in text:
-            return "UPI Fraud"
-        if "bank" in text or "account" in text:
-            return "Bank Impersonation"
+            return "upi_phishing"
         if "otp" in text:
-            return "OTP Scam"
-        return "Unknown Scam"
-    
-    # Function wrapper for orchestrator compatibility
-_detector_instance = ScamDetector()
+            return "otp_scam"
+        if "bank" in text:
+            return "bank_impersonation"
+        if "http" in text:
+            return "phishing"
+        return "unknown"
 
-def detect_scam(text: str) -> dict:
-    return _detector_instance.detect(text)
+_detector = ScamDetector()
 
+def detect_scam(text: str, sender: str = None):
+    return _detector.detect(text, sender)

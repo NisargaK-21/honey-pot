@@ -18,7 +18,7 @@ class Agent:
             return "Why would my account get blocked?"
 
         if "upi" in msg:
-            return "I’m not very familiar with UPI. Is there another way?"
+            return "I'm not very familiar with UPI. Is there another way?"
 
         if "otp" in msg:
             return "Why do you need an OTP? I usually don’t share that."
@@ -27,7 +27,7 @@ class Agent:
             return "Is this an official website?"
 
         if "pay" in msg or "send" in msg:
-            return "I’m confused about the payment process. Can you explain?"
+            return "I'm confused about the payment process. Can you explain?"
 
         return None  
     

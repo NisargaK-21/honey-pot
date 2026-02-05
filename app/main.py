@@ -5,8 +5,6 @@ from app.utils.auth import verify_api_key
 app = FastAPI(title="Agentic Honeypot API")
 
 
-app.middleware("http")(verify_api_key)
-
 app.include_router(honeypot_router, prefix="/honeypot")
 
 @app.get("/")
