@@ -24,4 +24,5 @@ class HoneypotRequest(BaseModel):
 
 class HoneypotResponse(BaseModel):
     status: str
-    reply: Dict[str, Any]
+    # reply: Dict[str, Any]
+    reply: str
