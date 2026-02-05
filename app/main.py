@@ -1,15 +1,17 @@
-from fastapi import FastAPI
-from dotenv import load_dotenv
-import os
-
-load_dotenv()   # 👈 THIS LINE FIXES EVERYTHING
-
+from fastapi import FastAPI, Request
 from app.routes.honeypot import router as honeypot_router
 
-app = FastAPI(title="Agentic Honeypot API")
+app = FastAPI()
 
-app.include_router(honeypot_router, prefix="/honeypot")
 
 @app.get("/")
-def health_check():
+def health():
     return {"status": "ok"}
+
+
+@app.post("/")
+async def root_post(request: Request):
+    return {"status": "ok"}
+
+
+app.include_router(honeypot_router, prefix="/honeypot")
